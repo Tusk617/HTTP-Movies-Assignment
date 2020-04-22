@@ -13,7 +13,7 @@ const initialMovie = {
 const UpdateMovie = (props) => {
 
     const [movie, setMovie] = useState(initialMovie);
-    const { push } = useHistory();
+    const { push, go } = useHistory();
     const { id } = useParams();
     const params = useParams();
 
@@ -43,14 +43,9 @@ const UpdateMovie = (props) => {
         event.preventDefault();
         axios.put(`http://localhost:5000/api/movies/${id}`, movie)
         .then(response => {
-            const updatedMovie = response.data
-            const newList = props.movieList.filter((movie) => movie.id !== updatedMovie.id)
-            props.setMovieList([
-                ...newList,
-                updatedMovie
-            ])
+            
             push(`/`)
-            props.movieList.sort();
+            go(0)
         })
         .catch((error) => console.log(error))
     }
