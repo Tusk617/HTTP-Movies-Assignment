@@ -43,7 +43,14 @@ const UpdateMovie = (props) => {
         event.preventDefault();
         axios.put(`http://localhost:5000/api/movies/${id}`, movie)
         .then(response => {
-            push(`/movies/${id}`)
+            const updatedMovie = response.data
+            const newList = props.movieList.filter((movie) => movie.id !== updatedMovie.id)
+            props.setMovieList([
+                ...newList,
+                updatedMovie
+            ])
+            push(`/`)
+            props.movieList.sort();
         })
         .catch((error) => console.log(error))
     }
