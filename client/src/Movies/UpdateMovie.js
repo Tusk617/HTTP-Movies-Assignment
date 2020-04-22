@@ -14,7 +14,8 @@ const UpdateMovie = (props) => {
 
     const [movie, setMovie] = useState(initialMovie);
     const { push } = useHistory();
-    const params = useParams()
+    const { id } = useParams();
+    const params = useParams();
 
     const fetchMovie = (id) => {
         axios
@@ -38,10 +39,19 @@ const UpdateMovie = (props) => {
         })
     }
 
+    const handleSubmit = event => {
+        event.preventDefault();
+        axios.put(`http://localhost:5000/api/movies/${id}`, movie)
+        .then(response => {
+            push(`/movies/${id}`)
+        })
+        .catch((error) => console.log(error))
+    }
+
     return (
         <div>
             <h2>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <input 
                         type="text"
                         name="title"
@@ -62,7 +72,8 @@ const UpdateMovie = (props) => {
                         placeholder="Metascore"
                         value={movie.metascore}
                         onChange={handleChange}
-                    />
+                    /><br/>
+                    <input type="submit"></input>
                 </form>
             </h2>
         </div>
