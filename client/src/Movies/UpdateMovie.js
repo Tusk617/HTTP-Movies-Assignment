@@ -17,7 +17,7 @@ const UpdateMovie = (props) => {
     const { id } = useParams();
     const params = useParams();
 
-    const fetchMovie = (id) => {
+    const getMovieList = (id) => {
         axios
           .get(`http://localhost:5000/api/movies/${id}`)
           .then((res) => {
@@ -28,14 +28,16 @@ const UpdateMovie = (props) => {
       };
 
       useEffect(() => {
-          fetchMovie(params.id)
+          getMovieList(params.id)
       }, [params.id])
 
 
     const handleChange = (event) => {
+        event.persist();
+        let value = event.target.name === 'stars' ? event.target.value.split(','):event.target.value;
         setMovie({
             ...movie,
-            [event.target.name]: event.target.value
+            [event.target.name]: value
         })
     }
 
@@ -43,9 +45,9 @@ const UpdateMovie = (props) => {
         event.preventDefault();
         axios.put(`http://localhost:5000/api/movies/${id}`, movie)
         .then(response => {
-            
+            props.getMovieList()
             push(`/`)
-            go(0)
+            // go(0)
         })
         .catch((error) => console.log(error))
     }
@@ -75,6 +77,13 @@ const UpdateMovie = (props) => {
                         value={movie.metascore}
                         onChange={handleChange}
                     /><br/>
+                    <input 
+                        type="text"
+                        name="stars"
+                        value={movie.stars.join(',')}
+                        onChange={handleChange}
+                    
+                    />
                     <input type="submit"></input>
                 </form>
             </h2>
