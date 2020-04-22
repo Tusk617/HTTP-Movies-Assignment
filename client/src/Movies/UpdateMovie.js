@@ -22,7 +22,7 @@ const UpdateMovie = () => {
                         name="metascore"
                         placeholder="Metascore"
                         value=""
-                    /><br/>
+                    />
                 </form>
             </h2>
         </div>
